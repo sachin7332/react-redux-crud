@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
+import './AddEdit.css'; // Import CSS for custom styling
 
 const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
   const [form] = Form.useForm();
@@ -19,6 +20,7 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
       visible={visible}
       onCancel={onCancel}
       footer={null}
+      className="add-edit-modal"
     >
       <Form form={form} onFinish={onFinish} layout="vertical">
         <Form.Item
@@ -33,14 +35,14 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
           name="name"
           rules={[{ required: true, message: 'Please enter name' }]}
         >
-          <Input />
+          <Input className="form-control" />
         </Form.Item>
         <Form.Item
           label="Username"
           name="username"
           rules={[{ required: true, message: 'Please enter username' }]}
         >
-          <Input />
+          <Input className="form-control" />
         </Form.Item>
         <Form.Item
           label="Email"
@@ -50,7 +52,7 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
             { type: 'email', message: 'Please enter a valid email' },
           ]}
         >
-          <Input />
+          <Input className="form-control" />
         </Form.Item>
         <Form.Item label="Address" name="address">
           <Form.Item
@@ -58,16 +60,16 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
             label="Street"
             rules={[{ required: true, message: 'Please enter street' }]}
           >
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
           <Form.Item name={['address', 'suite']} label="Suite">
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
           <Form.Item name={['address', 'city']} label="City">
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
           <Form.Item name={['address', 'zipcode']} label="Zipcode">
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
         </Form.Item>
         <Form.Item
@@ -75,7 +77,7 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
           name="phone"
           rules={[{ required: true, message: 'Please enter phone number' }]}
         >
-          <Input />
+          <Input className="form-control" />
         </Form.Item>
         <Form.Item
           label="Website"
@@ -85,7 +87,7 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
             { type: 'url', message: 'Please enter a valid URL' },
           ]}
         >
-          <Input />
+          <Input className="form-control" />
         </Form.Item>
         <Form.Item label="Company" name="company">
           <Form.Item
@@ -93,18 +95,18 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
             label="Name"
             rules={[{ required: true, message: 'Please enter company name' }]}
           >
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
           <Form.Item name={['company', 'catchPhrase']} label="Catch Phrase">
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
           <Form.Item name={['company', 'bs']} label="Business">
-            <Input />
+            <Input className="form-control" />
           </Form.Item>
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">Save</Button>
-          <Button style={{ marginLeft: '10px' }} onClick={onCancel}>Cancel</Button>
+        <Form.Item className="button-group" style={{ marginTop: '20px' }}>
+          <Button type="primary" htmlType="submit" className="btn btn-primary">Save</Button>
+          <Button className="btn btn-secondary cancel-btn" onClick={onCancel}>Cancel</Button>
         </Form.Item>
       </Form>
     </Modal>

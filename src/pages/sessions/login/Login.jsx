@@ -12,6 +12,10 @@ import { StorageConstant } from 'constants/CommonConstants';
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const initialValues = {
+    email: 'admin@gmail.com', // Initial value for the email field
+    password: 'admin@123', // Password field is left empty
+  };
 
   const onSubmit = (values) => {
          navigate("/users", { replace: true });
@@ -31,7 +35,7 @@ const LoginPage = () => {
           <Form
             name="normal_login"
             className="login-form"
-            initialValues={{ remember: true }}
+            initialValues={initialValues} // Set initial values here
             onFinish={onSubmit}
           >
             <Form.Item

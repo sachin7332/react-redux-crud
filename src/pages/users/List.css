@@ -1,0 +1,26 @@
+.list-container {
+    padding: 20px;
+  }
+  
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .list-header h2 {
+    margin: 0;
+  }
+  
+  .list-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list-content .ant-table-wrapper {
+    border: none;
+  }
+  

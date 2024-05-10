@@ -1,9 +1,9 @@
-// List.js
 import React, { useEffect, useState } from 'react';
-import { Table, Button, message } from 'antd';
+import { Table, Button, message ,Popconfirm } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers, addUser, updateUser, deleteUser } from 'store/features/userSlice';
 import UserAddEditForm from './AddEdit';
+import './List.css'; // Import CSS for custom styling
 
 const List = () => {
   const dispatch = useDispatch();
@@ -66,6 +66,7 @@ const List = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      render: (text) => <span>#{text}</span> // Display ID with a '#' prefix
     },
     {
       title: 'Name',
@@ -73,14 +74,19 @@ const List = () => {
       key: 'name',
     },
     {
-      title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
-    },
-    {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
+    {
+      title: 'City with Zip Code',
+      key: 'cityWithZip',
+      render: (text, record) => <span>{record.address.city} ({record.address.zipcode})</span> // Display city with zip code
     },
     {
       title: 'Actions',
@@ -88,23 +94,35 @@ const List = () => {
       render: (text, record) => (
         <div>
           <Button type="primary" onClick={() => handleEdit(record)}>Edit</Button>{' '}
-          <Button type="danger" onClick={() => handleDelete(record.id)}>Delete</Button>
+          <Popconfirm
+            title="Are you sure delete this user?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="danger">Delete</Button>
+          </Popconfirm>
         </div>
       ),
     },
   ];
 
   return (
-    <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>Add User</Button>
-      <Table
-        columns={columns}
-        dataSource={users}
-        loading={loading}
-        pagination={false}
-        rowKey="id"
-        style={{ marginTop: 20 }}
-      />
+    <div className="list-container">
+      <div className="list-header">
+        <h2>User Management</h2>
+        <Button type="primary" onClick={() => setIsModalVisible(true)}>Add User</Button>
+      </div>
+      <div className="list-content">
+        <Table
+          columns={columns}
+          dataSource={users}
+          loading={loading}
+          pagination={true}
+          rowKey="id"
+          style={{ marginTop: 20 }}
+        />
+      </div>
       <UserAddEditForm
         visible={isModalVisible}
         initialValues={selectedUser}
