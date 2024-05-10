@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 // import Loadable from "components/Loadable";
 import sessionRoutes from "routes/session-routes";
 import AuthGuard from "guard/AuthGuard";
+import List from "pages/users/List";
+import BasicLayout from "pages/layout/BasicLayout";
 
 
 const routes = [
@@ -13,14 +15,14 @@ const routes = [
   {
     element: (
       <AuthGuard>
-       <h1>dashboard users</h1>
+      <BasicLayout />
       </AuthGuard>
     ),
     children: [
      
       {
         path: "/users",
-        element: (<h1>users</h1>),
+        element:  <List/>,
       },
       
 

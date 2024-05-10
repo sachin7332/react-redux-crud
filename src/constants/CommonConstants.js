@@ -9,7 +9,7 @@ export const CODE = {
 }
 
 export const StorageConstant = {
-    isAuthenticated: "is_uthenticated",
+    isAuthenticated: "is_authenticated",
     User: "user",
 
    

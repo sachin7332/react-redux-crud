@@ -1,40 +1,65 @@
-import { createSlice } from '@reduxjs/toolkit'
+// userSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiInstance from 'services/apiInstance';
 
-const initialState = []
+// Async thunk for fetching users
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
+  const response = await apiInstance.get('/users');
+  return response.data;
+});
 
-const todosSlice = createSlice({
-  name: 'todos',
-  initialState,
-  reducers: {
-    // Give case reducers meaningful past-tense "event"-style names
-    todoAdded(state, action) {
-      const { id, text } = action.payload
-      // "Mutating" update syntax thanks to Immer, and no `return` needed
-      state.todos.push({
-        id,
-        text,
-        completed: false,
-      })
-    },
-    todoToggled(state, action) {
-      // Look for the specific nested object to update.
-      // In this case, `action.payload` is the default field in the action,
-      // and can hold the `id` value - no need for `action.id` separately
-      const matchingTodo = state.todos.find(
-        (todo) => todo.id === action.payload,
-      )
+// Async thunk for adding a user
+export const addUser = createAsyncThunk('users/addUser', async (userData) => {
+  const response = await apiInstance.post('/users', userData);
+  return response.data;
+});
 
-      if (matchingTodo) {
-        // Can directly "mutate" the nested object
-        matchingTodo.completed = !matchingTodo.completed
-      }
-    },
+// Async thunk for updating a user
+export const updateUser = createAsyncThunk('users/updateUser', async ({ userId, userData }) => {
+  const response = await apiInstance.put(`/users/${userId}`, userData);
+  return response.data;
+});
+
+// Async thunk for deleting a user
+export const deleteUser = createAsyncThunk('users/deleteUser', async (userId) => {
+  await apiInstance.delete(`/users/${userId}`);
+  return userId;
+});
+
+const userSlice = createSlice({
+  name: 'users',
+  initialState: {
+    users: [],
+    loading: false,
+    error: null,
   },
-})
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.users.push(action.payload);
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const updatedUserIndex = state.users.findIndex(user => user.id === action.payload.id);
+        if (updatedUserIndex !== -1) {
+          state.users[updatedUserIndex] = action.payload;
+        }
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.users = state.users.filter(user => user.id !== action.payload);
+      });
+  },
+});
 
-// `createSlice` automatically generated action creators with these names.
-// export them as named exports from this "slice" file
-export const { todoAdded, todoToggled } = todosSlice.actions
-
-// Export the slice reducer as the default export
-export default todosSlice.reducer
+export default userSlice.reducer;
