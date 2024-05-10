@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+        "assets/*": ["assets/*"],
+        "guard/*": ["guard/*"],
+        "components/*": ["components/*"],
+        "constants/*": ["constants/*"],
+        "config/*": ["config/*"],
+        "pages/*": ["pages/*"],
+        "routes/*": ["routes/*"],
+        "services/*": ["services/*"],
+        "store/*": ["store/*"],
+        "utils/*": ["utils/*"]
+
+      }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }
+  
