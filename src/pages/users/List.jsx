@@ -8,7 +8,8 @@ import './List.css'; // Import CSS for custom styling
 const List = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => state.users.users);
-  const loading = useSelector(state => state.users.loading);
+  const globalLoading = useSelector(state => state.loader.loading);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -117,7 +118,7 @@ const List = () => {
         <Table
           columns={columns}
           dataSource={users}
-          loading={loading}
+          loading={globalLoading}
           pagination={true}
           rowKey="id"
           style={{ marginTop: 20 }}
