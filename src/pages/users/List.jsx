@@ -121,7 +121,8 @@ const List = () => {
           loading={globalLoading}
           pagination={true}
           rowKey="id"
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20 ,overflowX: 'auto'}}
+          scroll={{ x: 'max-content' }} // make table horizontally scrollable
         />
       </div>
       <UserAddEditForm
@@ -129,6 +130,7 @@ const List = () => {
         initialValues={selectedUser}
         onSave={handleSave}
         onCancel={handleCancel}
+        
       />
     </div>
   );

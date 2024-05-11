@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  # ADMIN Service
+  admin:
+    build:
+     context: .
+     args:
+     - PORT=${PORT}
+     - NODE_ENV=${NODE_ENV}
+
+    ports:
+      - ${PORT}:3000  
+    volumes:
+     - .:/usr/src/app/admin
+     - /usr/src/app/admin/node_modules
+    environment:
+      PORT: ${PORT}  
+    stdin_open: true 
+    tty: true 
+
+

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import './AddEdit.css'; // Import CSS for custom styling
+import PropTypes from 'prop-types'; // Import PropTypes
+
 
 const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
   const [form] = Form.useForm();
@@ -112,5 +114,14 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
     </Modal>
   );
 };
+
+// Define propTypes
+AddEdit.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  initialValues: PropTypes.object,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
+
 
 export default AddEdit;
