@@ -1,7 +1,8 @@
 import { Suspense } from "react";
+import GlobalLoader from "./GlobalLoader";
 const Loadable = (Component) => (props) => {
   return (
-    <Suspense fallback={(<div>Loading...</div>)}>
+    <Suspense fallback={<GlobalLoader/>}>
       <Component {...props} />
     </Suspense>
   );

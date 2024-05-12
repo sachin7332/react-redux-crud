@@ -5,7 +5,6 @@ import { getSecureData } from "utils/storageHelper";
 
 
 export default function AuthGuard({ children }) {
-  // const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   const isAuthenticated = getSecureData(StorageConstant.isAuthenticated) === "true";
   const { pathname } = useLocation();
 

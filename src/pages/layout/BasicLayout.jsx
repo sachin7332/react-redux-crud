@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Breadcrumb, Layout, theme } from 'antd';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
-const {  Content } = Layout;
+const { Content } = Layout;
 
 const BasicLayout = () => {
   const {
@@ -11,24 +11,30 @@ const BasicLayout = () => {
   } = theme.useToken();
 
   const breadcrumbItems = [
-    { path: '/', breadcrumbName: 'Home' },
-    { path: '/list', breadcrumbName: 'List' },
-    { path: '/app', breadcrumbName: 'App' }
+    { breadcrumbName: 'Home' },
+    { breadcrumbName: 'List' },
+    { breadcrumbName: 'Users' }
   ];
+  
   return (
     <Layout>
-<AppHeader/>
+      <AppHeader />
       <Content
         style={{
           padding: '0 48px',
         }}
       >
-          <Breadcrumb
+        <Breadcrumb
           style={{
             margin: '16px 0',
           }}
-          items={breadcrumbItems}
-        />
+        >
+          {breadcrumbItems.map(item => (
+            <Breadcrumb.Item key={item.breadcrumbName}>
+              {item.breadcrumbName}
+            </Breadcrumb.Item>
+          ))}
+        </Breadcrumb>
         <div
           style={{
             background: colorBgContainer,
@@ -37,10 +43,10 @@ const BasicLayout = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-         <Outlet />
+          <Outlet />
         </div>
       </Content>
-     <AppFooter/>
+      <AppFooter />
     </Layout>
   );
 };

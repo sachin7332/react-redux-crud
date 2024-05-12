@@ -1,6 +1,5 @@
 import SecureStorage from 'react-secure-storage';
 
-// Create an instance of SecureStorage
 
 // Helper function to set data
 export const setSecureData = (key, value) => {

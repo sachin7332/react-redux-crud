@@ -3,12 +3,15 @@ import { Modal, Form, Input, Button } from 'antd';
 import './AddEdit.css'; // Import CSS for custom styling
 import PropTypes from 'prop-types'; // Import PropTypes
 
-
 const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldsValue(initialValues);
+    //mounting
+   form.setFieldsValue(initialValues);
+    //unmounting
+   return () =>  form.resetFields();
+
   }, [initialValues, form]);
 
   const onFinish = (values) => {
@@ -19,7 +22,7 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
   return (
     <Modal
       title={initialValues ? 'Edit User' : 'Add User'}
-      visible={visible}
+      open={visible}
       onCancel={onCancel}
       footer={null}
       className="add-edit-modal"
@@ -64,13 +67,22 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
           >
             <Input className="form-control" />
           </Form.Item>
-          <Form.Item name={['address', 'suite']} label="Suite">
+          <Form.Item name={['address', 'suite']} label="Suite"
+          rules={[
+            { required: true, message: 'Please enter Suite' },
+          ]}>
             <Input className="form-control" />
           </Form.Item>
-          <Form.Item name={['address', 'city']} label="City">
+          <Form.Item name={['address', 'city']} label="City"
+          rules={[
+            { required: true, message: 'Please enter City Name' },
+          ]}>
             <Input className="form-control" />
           </Form.Item>
-          <Form.Item name={['address', 'zipcode']} label="Zipcode">
+          <Form.Item name={['address', 'zipcode']} label="Zipcode"
+          rules={[
+            { required: true, message: 'Please enter Zipcode' },
+          ]}>
             <Input className="form-control" />
           </Form.Item>
         </Form.Item>
@@ -86,7 +98,6 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
           name="website"
           rules={[
             { required: true, message: 'Please enter website' },
-            { type: 'url', message: 'Please enter a valid URL' },
           ]}
         >
           <Input className="form-control" />
@@ -96,13 +107,20 @@ const AddEdit = ({ visible, initialValues, onSave, onCancel }) => {
             name={['company', 'name']}
             label="Name"
             rules={[{ required: true, message: 'Please enter company name' }]}
+            
           >
             <Input className="form-control" />
           </Form.Item>
-          <Form.Item name={['company', 'catchPhrase']} label="Catch Phrase">
+          <Form.Item name={['company', 'catchPhrase']} label="Catch Phrase"
+          rules={[
+            { required: true, message: 'Please enter Catch Phrase' },
+          ]}>
             <Input className="form-control" />
           </Form.Item>
-          <Form.Item name={['company', 'bs']} label="Business">
+          <Form.Item name={['company', 'bs']} label="Business" 
+           rules={[
+            { required: true, message: 'Please enter Business Name' },
+          ]}>
             <Input className="form-control" />
           </Form.Item>
         </Form.Item>
@@ -123,5 +141,4 @@ AddEdit.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
-
-export default AddEdit;
+export default React.memo(AddEdit);

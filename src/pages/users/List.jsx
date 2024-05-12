@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Table, Button, message ,Popconfirm } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers, addUser, updateUser, deleteUser } from 'store/features/userSlice';
@@ -17,12 +17,12 @@ const List = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  const handleEdit = (record) => {
+  const handleEdit = useCallback((record) => {
     setSelectedUser(record);
     setIsModalVisible(true);
-  };
+  }, []);
 
-  const handleDelete = (userId) => {
+  const handleDelete = useCallback((userId) => {
     dispatch(deleteUser(userId))
       .then(() => {
         message.success('User deleted successfully');
@@ -31,14 +31,14 @@ const List = () => {
         console.error('Error deleting user:', error);
         message.error('Failed to delete user');
       });
-  };
+  }, [dispatch]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setIsModalVisible(false);
     setSelectedUser(null);
-  };
+  }, []);
 
-  const handleSave = (values) => {
+  const handleSave = useCallback((values) => {
     if (selectedUser) {
       dispatch(updateUser({ userId: selectedUser.id, userData: values }))
         .then(() => {
@@ -60,7 +60,7 @@ const List = () => {
           message.error('Failed to add user');
         });
     }
-  };
+  }, [dispatch, selectedUser]);
 
   const columns = [
     {
@@ -108,11 +108,23 @@ const List = () => {
     },
   ];
 
+  const memoizedForm = useMemo(() => (
+    <UserAddEditForm
+      visible={isModalVisible}
+      initialValues={selectedUser}
+      onSave={handleSave}
+      onCancel={handleCancel}
+    />
+  ), [isModalVisible, selectedUser, handleSave, handleCancel]);
+
   return (
     <div className="list-container">
       <div className="list-header">
         <h2>User Management</h2>
-        <Button type="primary" onClick={() => setIsModalVisible(true)}>Add User</Button>
+        <Button type="primary" onClick={() => {
+          setIsModalVisible(true)
+          setSelectedUser(null);
+        }}>Add User</Button>
       </div>
       <div className="list-content">
         <Table
@@ -125,13 +137,7 @@ const List = () => {
           scroll={{ x: 'max-content' }} // make table horizontally scrollable
         />
       </div>
-      <UserAddEditForm
-        visible={isModalVisible}
-        initialValues={selectedUser}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        
-      />
+      {memoizedForm}
     </div>
   );
 };
